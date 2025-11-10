@@ -1,0 +1,54 @@
+
+ARIA ONBOARDING SURVEY (v1.2)
+
+Overview:
+The onboarding survey personalizes each user’s experience and generates early behavioral data for Aria. It outputs three key insights:
+1. Archetype (Individual Contributor or Manager)
+2. Motivational Profile
+3. Stress Pattern
+
+Survey Structure:
+- 10 multiple-choice questions (A–D), one per screen (mobile-first)
+- Starts with a "voice preference" screen to determine tone (clinical, plain, relational, metaphorical, or spiritual)
+- Includes a branching question: “Do you lead others?” to assign archetype group (IC or Manager)
+
+Outputs:
+- Motivational Profile (e.g., Builder, Belonger, Seeker, etc.)
+- Stress Pattern (e.g., Firefighter, Pleaser, Fortress, etc.)
+- Archetype (IC or Manager group)
+
+Archetype Groups:
+Individual Contributors (IC): The Executor, The Analyst, The Connector, The Initiator, The Craftsman, The Adapter, The Seeker, The Anchor
+Managers: The Stabilizer, The Visionary, The Harmonizer, The Challenger, The Caregiver, The Explorer, The Driver, The Strategist, The Coach, The Architect, The Orchestrator, The Builder
+
+Data Model:
+{
+  "user_id": "uuid",
+  "voice_pref": "clinical|plain|relational|metaphor|spiritual",
+  "role": "IC|Manager",
+  "responses": [...],
+  "derived": {
+    "motivational_profile": {"label": "", "confidence": 0.0},
+    "stress_pattern": {"label": "", "confidence": 0.0},
+    "archetype": {"group": "IC|Manager", "label": "", "confidence": 0.0}
+  },
+  "consent": {"share_with_manager": false},
+  "timestamps": {"completed_at": "ISO-8601"}
+}
+
+Implementation Notes:
+- Logic and weights stored in a configurable JSON/YAML file (no redeploy needed for adjustments).
+- Results stored locally and anonymized for backend analytics.
+- Archetype derived using the same axis-based logic as motivational and stress profiles.
+- Clear separation between IC and Manager archetypes.
+- Front-end flow: voice_pref → role question → 10 Qs → summary output.
+
+Acceptance Criteria:
+- End-to-end quiz runs smoothly on mobile web/app.
+- Users see archetype + motivational + stress pattern summary.
+- No individual visibility to managers (only aggregate insights shown).
+
+Security:
+- GDPR compliant; k-anonymity threshold ≥ 7 for org-level data.
+- Users can delete data or revoke consent anytime.
+
