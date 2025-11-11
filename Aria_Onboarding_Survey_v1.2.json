@@ -1,0 +1,127 @@
+
+{
+  "metadata": {
+    "version": "1.2",
+    "description": "Aria Onboarding Survey - IC and Manager Archetype Integrated"
+  },
+  "questions": [
+    {
+      "id": "role",
+      "text": "Do you lead others?",
+      "choices": {
+        "A": "Yes",
+        "B": "No"
+      }
+    },
+    {
+      "id": "Q1",
+      "text": "Your first move on a new problem?",
+      "choices": {
+        "A": "Break into steps",
+        "B": "Ask clarifying questions",
+        "C": "Explore for patterns",
+        "D": "Define ideal end state & reverse-engineer"
+      }
+    },
+    {
+      "id": "Q2",
+      "text": "When misunderstood, you tend to...",
+      "choices": {
+        "A": "Explain more clearly",
+        "B": "Retreat and regroup",
+        "C": "Use analogy or story",
+        "D": "Ask what they meant"
+      }
+    },
+    {
+      "id": "Q3A",
+      "text": "When stressed, what helps you move forward?",
+      "choices": {
+        "A": "Space alone",
+        "B": "Talk to a trusted person",
+        "C": "Create a structure",
+        "D": "Reconnect to purpose"
+      }
+    },
+    {
+      "id": "Q3B",
+      "text": "When stressed, what do you want most from a manager?",
+      "choices": {
+        "A": "Protect my time",
+        "B": "Empathy first",
+        "C": "Break it into steps",
+        "D": "Define clear outcomes"
+      }
+    },
+    {
+      "id": "Q4",
+      "text": "In conflict, you tend to...",
+      "choices": {
+        "A": "Solve fast",
+        "B": "Preserve harmony",
+        "C": "Put truth on the table",
+        "D": "Avoid escalation"
+      }
+    },
+    {
+      "id": "Q5",
+      "text": "Feedback resonates best when it\u2019s...",
+      "choices": {
+        "A": "Direct and specific",
+        "B": "Warm and considerate",
+        "C": "Insightful or conceptual",
+        "D": "Reflective or questioning"
+      }
+    },
+    {
+      "id": "Q6",
+      "text": "When things are ambiguous, you usually...",
+      "choices": {
+        "A": "Negotiate clarity",
+        "B": "Observe longer",
+        "C": "Experiment until a pattern emerges",
+        "D": "Narrow to what\u2019s known"
+      }
+    },
+    {
+      "id": "Q7",
+      "text": "What drains you fastest?",
+      "choices": {
+        "A": "Losing autonomy",
+        "B": "Emotional pull from others",
+        "C": "Forced conformity",
+        "D": "Unclear expectations"
+      }
+    },
+    {
+      "id": "Q8",
+      "text": "What energizes you most?",
+      "choices": {
+        "A": "Autonomy",
+        "B": "Connection",
+        "C": "Challenge",
+        "D": "Purpose"
+      }
+    },
+    {
+      "id": "Q9",
+      "text": "When you freeze, it\u2019s usually because...",
+      "choices": {
+        "A": "Too many details",
+        "B": "Social risk",
+        "C": "Lack of inspiring direction",
+        "D": "Unclear success metrics"
+      }
+    },
+    {
+      "id": "Q10",
+      "text": "A workplace feels like 'home' when it offers...",
+      "choices": {
+        "A": "Structure",
+        "B": "Intimacy",
+        "C": "Possibility",
+        "D": "Precision"
+      }
+    }
+  ]
+}
