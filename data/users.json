@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "userId": "test-user-001",
+    "answers": {
+      "q1": "A",
+      "q2": "B",
+      "q3": "C"
+    },
+    "inference": {
+      "userId": "test-user-001",
+      "archetype": "Explorer",
+      "motivationalProfile": "Growth",
+      "stressPattern": "Low"
+    }
+  }
+]

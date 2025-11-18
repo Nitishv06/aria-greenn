@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "userId": "test-user-001",
+    "archetype": "Explorer",
+    "motivationalProfile": "Growth",
+    "stressPattern": "Low"
+  }
+]
