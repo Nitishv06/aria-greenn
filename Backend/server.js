@@ -36,44 +36,57 @@ app.get("/", (req, res) => {
 });
 
 // --- Submit Survey API ---
+// --- Main Survey API: store answers + return inference ---
 app.post("/submit-survey", (req, res) => {
-    const userData = req.body;
+  const payload = req.body;
+  console.log("Incoming Survey:", payload);
 
-    console.log("📥 Incoming Survey:", userData);
+  // make sure we always have these
+  const userId = payload.userId || `user-${Date.now()}`;
+  const answers = payload.answers || {};
 
-    // Save raw user data
-    const raw = readJSON(RAW_FILE);
-    raw.push(userData);
-    writeJSON(RAW_FILE, raw);
+  // read existing JSON data from files
+  const users = readJSON(USERS_FILE);
+  const raws = readJSON(RAW_FILE);
+  const inferences = readJSON(INFERENCES_FILE);
 
-    // Create simple inference (PLACEHOLDER LOGIC)
-    const inference = {
-        userId: userData.userId || Date.now(),
-        archetype: "Explorer",
-        motivationalProfile: "Growth",
-        stressPattern: "Low"
-    };
+  // very simple fake "inference" – this is what frontend will show
+  const inference = {
+    userId,
+    archetype: "Explorer",
+    motivationalProfile: "Growth",
+    stressPattern: "Low",
+  };
 
-    // Save inference
-    const inf = readJSON(INFERENCES_FILE);
-    inf.push(inference);
-    writeJSON(INFERENCES_FILE, inf);
+  // store data in arrays
+  users.push({
+    userId,
+    answers,
+    createdAt: new Date().toISOString(),
+  });
 
-    // Save user record
-    const users = readJSON(USERS_FILE);
-    users.push({
-        ...userData,
-        inference: inference
-    });
-    writeJSON(USERS_FILE, users);
+  raws.push({
+    userId,
+    raw: payload,
+    createdAt: new Date().toISOString(),
+  });
 
-    res.json({
-        message: "Survey stored successfully",
-        inference: inference
-    });
+  inferences.push(inference);
+
+  // write back to JSON files
+  writeJSON(USERS_FILE, users);
+  writeJSON(RAW_FILE, raws);
+  writeJSON(INFERENCES_FILE, inferences);
+
+  // send response to frontend
+  res.json({
+    message: "Survey stored successfully",
+    inference,
+  });
 });
 
-// --- Start Server ---
+// --- Start server ---
 app.listen(5000, () => {
-    console.log("🚀 Backend running at http://localhost:5000");
+  console.log("🚀 Backend running at http://localhost:5000");
 });
+

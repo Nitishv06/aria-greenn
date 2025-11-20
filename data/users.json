@@ -12,5 +12,41 @@
       "motivationalProfile": "Growth",
       "stressPattern": "Low"
     }
+  },
+  {
+    "userId": "test@gmail.com",
+    "answers": {
+      "q1": "Test User",
+      "q2": "test@gmail.com",
+      "q3": "C"
+    },
+    "createdAt": "2025-11-20T08:37:39.908Z"
+  },
+  {
+    "userId": "test@gmail.com",
+    "answers": {
+      "q1": "nandini",
+      "q2": "test@gmail.com",
+      "q3": "C"
+    },
+    "createdAt": "2025-11-20T08:44:46.056Z"
+  },
+  {
+    "userId": "test@gmail.com",
+    "answers": {
+      "name": "nandini",
+      "email": "test@gmail.com",
+      "voicePreference": "Plain",
+      "focusArea": "Confidence & self-worth",
+      "energy": "Okay",
+      "stressPattern": "Try to fix everything for everyone",
+      "supportStyle": "Encouragement and validation",
+      "timeHorizon": "This month",
+      "checkIns": "Daily",
+      "style": "Gentle",
+      "workStyle": "Planner / organised",
+      "goalClarity": "Somewhat clear"
+    },
+    "createdAt": "2025-11-20T11:37:03.609Z"
   }
 ]
