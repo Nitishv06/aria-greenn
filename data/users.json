@@ -48,5 +48,25 @@
       "goalClarity": "Somewhat clear"
     },
     "createdAt": "2025-11-20T11:37:03.609Z"
+  },
+  {
+    "userId": "test@gmail.com",
+    "answers": {
+      "name": "nandini",
+      "email": "test@gmail.com",
+      "voicePreference": "plain",
+      "role": "A",
+      "Q1": "A",
+      "Q2": "B",
+      "Q3B": "B",
+      "Q4": "B",
+      "Q5": "B",
+      "Q6": "C",
+      "Q7": "C",
+      "Q8": "D",
+      "Q9": "C",
+      "Q10": "D"
+    },
+    "createdAt": "2025-11-20T13:13:57.363Z"
   }
 ]

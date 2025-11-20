@@ -22,5 +22,11 @@
     "archetype": "Explorer",
     "motivationalProfile": "Growth",
     "stressPattern": "Low"
+  },
+  {
+    "userId": "test@gmail.com",
+    "archetype": "Explorer",
+    "motivationalProfile": "Growth",
+    "stressPattern": "Low"
   }
 ]
