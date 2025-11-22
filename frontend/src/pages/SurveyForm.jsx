@@ -12,7 +12,7 @@ const VOICE_OPTIONS = [
 ];
 
 // ---------------- Survey questions from v1.2 JSON ----------------
-// We use choice keys (A, B, C, D) because the scoring logic is usually based on these.
+// We keep the choice keys (A, B, C, D) so your backend / scoring can use them.
 
 const QUESTION_MAP = {
   role: {
@@ -148,8 +148,7 @@ const QUESTION_MAP = {
 };
 
 // Build the ordered flow of questions AFTER voice preference.
-// We include role, then Q1, Q2, Q3A/B (depending on role), then Q4..Q10.
-
+// Includes role, then Q1, Q2, Q3A/B based on role, then Q4–Q10.
 function buildQuestionFlow(roleChoice) {
   const flow = [];
 
@@ -160,12 +159,10 @@ function buildQuestionFlow(roleChoice) {
   flow.push(QUESTION_MAP.Q1);
   flow.push(QUESTION_MAP.Q2);
 
-  // 3) Q3A or Q3B depending on roleChoice
+  // 3) Q3A or Q3B depending on roleChoice (A = Yes => Manager => Q3B)
   if (roleChoice === "A") {
-    // A = "Yes" => Manager => wants Q3B
     flow.push(QUESTION_MAP.Q3B);
   } else {
-    // default to Q3A (IC) if role is "B" or not answered yet
     flow.push(QUESTION_MAP.Q3A);
   }
 
@@ -183,19 +180,17 @@ function buildQuestionFlow(roleChoice) {
   return flow;
 }
 
-// ---------------- Component ----------------
-
 export default function SurveyForm() {
   const navigate = useNavigate();
 
-  // Basic info (optional, client didn’t demand but fine to keep)
+  // Optional basic info
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
   // Voice preference
-  const [voicePref, setVoicePref] = useState(null); // code: "clinical" | ...
+  const [voicePref, setVoicePref] = useState(null); // "clinical" | ...
 
-  // Step state: 1 = voice screen, 2+ = questions
+  // Step state: 1 = voice + basic info, 2+ = questions
   const [step, setStep] = useState(1);
 
   // answers: { role: "A", Q1: "B", ... }
@@ -203,12 +198,12 @@ export default function SurveyForm() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Build the current question flow using role answer (for Q3A/B)
+  // Build the question flow using current role answer (for Q3A/B)
   const questionFlow = buildQuestionFlow(answers.role);
-  const totalSteps = 1 + questionFlow.length; // 1 = voice, then all questions
+  const totalSteps = 1 + questionFlow.length; // 1 voice + all questions
 
   // Map current step (>=2) to question index
-  const currentQuestionIndex = step - 2; // step 2 => index 0
+  const currentQuestionIndex = step - 2; // step 2 -> index 0
   const currentQuestion =
     step >= 2 && step <= totalSteps ? questionFlow[currentQuestionIndex] : null;
 
@@ -227,7 +222,7 @@ export default function SurveyForm() {
 
   function canGoNext() {
     if (step === 1) {
-      // Voice preference is required
+      // Voice preference is required before continuing
       return Boolean(voicePref);
     }
     if (!currentQuestion) return false;
@@ -257,7 +252,7 @@ export default function SurveyForm() {
       const roleChoice = answers.role; // "A" or "B"
       const roleGroup = roleChoice === "A" ? "Manager" : "IC";
 
-      // Turn answers object into an array of { id, choice }
+      // Turn answers object into array for spec-style responses
       const responseArray = Object.entries(answers).map(([id, choice]) => ({
         id,
         choice,
@@ -266,18 +261,18 @@ export default function SurveyForm() {
       const primaryUserId = email || "anon-user";
 
       const payload = {
-        // --- Old shape (for your existing backend) ---
+        // ---- Shape for your current backend ----
         userId: primaryUserId,
         answers: {
           name,
           email,
-          voicePreference: voicePref, // code
+          voicePreference: voicePref,
           ...answers, // role, Q1..Q10 as A/B/C/D
         },
 
-        // --- Spec-style shape (for client requirements) ---
+        // ---- Spec-style data model (if backend uses it) ----
         user_id: primaryUserId,
-        voice_pref: voicePref, // "clinical" | "plain" | ...
+        voice_pref: voicePref,
         role: roleGroup, // "IC" | "Manager"
         responses: responseArray,
       };
@@ -312,17 +307,38 @@ export default function SurveyForm() {
     <div className="survey-root">
       <div className="survey-shell">
         <header className="survey-header">
-          <h1>Onboarding survey</h1>
+          <h1>Aria</h1>
           <p>
             Answer a few quick questions so Aria can personalise your coaching.
           </p>
         </header>
 
         <main>
+          {/* Progress bar + dots */}
+          <div className="progress-container">
+            <div className="progress-bar">
+              <div
+                className="progress"
+                style={{ width: `${(step / totalSteps) * 100}%` }}
+              ></div>
+            </div>
+
+            <div className="dots">
+              {Array.from({ length: totalSteps }).map((_, index) => (
+                <div
+                  key={index}
+                  className={"dot " + (step - 1 === index ? "active" : "")}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Step label */}
           <div className="survey-step">
             Step {step} of {totalSteps}
           </div>
 
+          {/* Question / form content */}
           {step === 1 ? (
             <section className="survey-question">
               {/* Optional basic info */}
