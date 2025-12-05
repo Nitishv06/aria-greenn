@@ -1,13 +1,11 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
 import SurveyForm from "./pages/SurveyForm";
-import ThankYou from "./pages/ThankYou";
 
-export default function App() {
+function App() {
   return (
-    <Routes>
-      <Route path="/" element={<SurveyForm />} />
-      <Route path="/thanks" element={<ThankYou />} />
-    </Routes>
+    <div className="survey-root">
+      <SurveyForm />
+    </div>
   );
 }
+
+export default App;
