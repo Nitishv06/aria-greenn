@@ -1,98 +1,151 @@
-// frontend/src/pages/ThankYou.jsx
-import React from "react";
-import { useLocation, Link } from "react-router-dom";
+
+import React from 'react';
+import { useLocation, Link } from 'react-router-dom';
 
 export default function ThankYou() {
   const { state } = useLocation();
-  const inference = state?.inference;
+  const scores = state?.scores;
 
-  if (!inference) {
+  const containerStyle = {
+    backgroundColor: '#e0f2f1',
+    minHeight: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontFamily: 'sans-serif',
+  };
+
+  const cardStyle = {
+    backgroundColor: 'white',
+    borderRadius: '16px',
+    padding: '32px',
+    width: '100%',
+    maxWidth: '500px',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+  };
+
+  const headingStyle = {
+    fontSize: '24px',
+    fontWeight: 'bold',
+    marginBottom: '8px',
+  };
+
+  const subHeadingStyle = {
+    color: '#555',
+    marginBottom: '24px',
+  };
+
+  const sectionStyle = {
+    marginBottom: '20px',
+  };
+
+  const sectionTitleStyle = {
+    fontSize: '18px',
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: '12px',
+    borderBottom: '1px solid #eee',
+    paddingBottom: '8px',
+  };
+
+  const itemStyle = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginBottom: '8px',
+  };
+
+  const labelStyle = {
+    color: '#444',
+  };
+
+  const valueStyle = {
+    fontWeight: 'bold',
+  };
+  
+  const buttonStyle = {
+      display: 'block',
+      width: '120px',
+      margin: '32px auto 0',
+      padding: '12px',
+      border: 'none',
+      borderRadius: '8px',
+      backgroundColor: '#f0f0f0',
+      cursor: 'pointer',
+      textAlign: 'center',
+      textDecoration: 'none',
+      color: '#333',
+      fontSize: '14px',
+  };
+
+  if (!scores || !scores.derived) {
     return (
-      <div style={{ maxWidth: 760, margin: "40px auto", padding: 16 }}>
-        <h1>Thank you!</h1>
-        <p>Your responses were submitted successfully.</p>
-        <p>No inference data returned by the backend.</p>
-        <p><Link to="/">Back to form</Link></p>
+      <div style={containerStyle}>
+        <div style={cardStyle}>
+          <h1 style={headingStyle}>Thank you!</h1>
+          <p style={subHeadingStyle}>Your responses were submitted successfully.</p>
+          <p>There was an issue calculating your results.</p>
+          <Link to="/" style={buttonStyle}>Back to start</Link>
+        </div>
       </div>
     );
   }
 
-  const { motivational_profile, stress_pattern, archetype } = inference;
+  const { motivational_profile, stress_pattern, archetype } = scores.derived;
 
   return (
-    <div style={{ maxWidth: 760, margin: "40px auto", padding: 16 }}>
-      <h1>Thank you!</h1>
-      <p>Your responses were submitted successfully.</p>
+    <div style={containerStyle}>
+      <div style={cardStyle}>
+        <h1 style={headingStyle}>Thank you!</h1>
+        <p style={subHeadingStyle}>Your responses are in. Here's your starting snapshot based on the Aria onboarding survey.</p>
 
-      <section
-        style={{
-          background: "#fafafa",
-          padding: "20px",
-          borderRadius: "10px",
-          marginTop: "24px",
-          boxShadow: "0 0 8px rgba(0,0,0,0.08)",
-        }}
-      >
-        <h2 style={{ marginBottom: 12 }}>Your Personalised Insights</h2>
-
-        {/* Archetype */}
-        {archetype && (
-          <div style={{ marginBottom: 20 }}>
-            <h3 style={{ margin: "0 0 6px", color: "#444" }}>Archetype</h3>
-            <p style={{ fontSize: "18px", margin: 0 }}>
-              <strong>{archetype.label}</strong>
-            </p>
-            <p style={{ margin: "4px 0 0", color: "#666" }}>
-              Group: {archetype.group}
-            </p>
-            {archetype.confidence !== undefined && (
-              <p style={{ margin: 0, color: "#999" }}>
-                Confidence: {(archetype.confidence * 100).toFixed(1)}%
-              </p>
-            )}
-          </div>
-        )}
-
-        {/* Motivational Profile */}
         {motivational_profile && (
-          <div style={{ marginBottom: 20 }}>
-            <h3 style={{ margin: "0 0 6px", color: "#444" }}>
-              Motivational Profile
-            </h3>
-            <p style={{ fontSize: "18px", margin: 0 }}>
-              <strong>{motivational_profile.label}</strong>
-            </p>
-            {motivational_profile.confidence !== undefined && (
-              <p style={{ margin: "4px 0 0", color: "#999" }}>
-                Confidence: {(motivational_profile.confidence * 100).toFixed(
-                  1
-                )}%
-              </p>
-            )}
+          <div style={sectionStyle}>
+            <h2 style={sectionTitleStyle}>Motivational profile</h2>
+            <div style={itemStyle}>
+              <span style={labelStyle}>Label:</span>
+              <span style={valueStyle}>{motivational_profile.label}</span>
+            </div>
+            <div style={itemStyle}>
+              <span style={labelStyle}>Confidence:</span>
+              <span style={valueStyle}>{(motivational_profile.confidence * 100).toFixed(1)}%</span>
+            </div>
           </div>
         )}
 
-        {/* Stress Pattern */}
         {stress_pattern && (
-          <div style={{ marginBottom: 20 }}>
-            <h3 style={{ margin: "0 0 6px", color: "#444" }}>Stress Pattern</h3>
-            <p style={{ fontSize: "18px", margin: 0 }}>
-              <strong>{stress_pattern.label}</strong>
-            </p>
-            {stress_pattern.confidence !== undefined && (
-              <p style={{ margin: "4px 0 0", color: "#999" }}>
-                Confidence: {(stress_pattern.confidence * 100).toFixed(1)}%
-              </p>
-            )}
+          <div style={sectionStyle}>
+            <h2 style={sectionTitleStyle}>Stress pattern</h2>
+            <div style={itemStyle}>
+              <span style={labelStyle}>Label:</span>
+              <span style={valueStyle}>{stress_pattern.label}</span>
+            </div>
+            <div style={itemStyle}>
+              <span style={labelStyle}>Confidence:</span>
+              <span style={valueStyle}>{(stress_pattern.confidence * 100).toFixed(1)}%</span>
+            </div>
           </div>
         )}
-      </section>
 
-      <p style={{ marginTop: 20 }}>
-        <Link to="/" style={{ color: "#0077ff" }}>
-          Back to form
-        </Link>
-      </p>
+        {archetype && archetype.primary && (
+          <div style={sectionStyle}>
+            <h2 style={sectionTitleStyle}>Archetype stack ({archetype.group})</h2>
+            <div style={itemStyle}>
+              <span style={labelStyle}>Primary:</span>
+              <span style={valueStyle}>{archetype.primary.label} ({(archetype.primary.weight * 100).toFixed(1)}%)</span>
+            </div>
+            <div style={itemStyle}>
+              <span style={labelStyle}>Secondary:</span>
+              <span style={valueStyle}>{archetype.secondary.label} ({(archetype.secondary.weight * 100).toFixed(1)}%)</span>
+            </div>
+            <div style={itemStyle}>
+              <span style={labelStyle}>Tertiary:</span>
+              <span style={valueStyle}>{archetype.tertiary.label} ({(archetype.tertiary.weight * 100).toFixed(1)}%)</span>
+            </div>
+          </div>
+        )}
+        
+        <Link to="/" style={buttonStyle}>Back to start</Link>
+      </div>
     </div>
   );
 }
