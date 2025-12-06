@@ -1,12 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import questions from '../data/questions';
+import questions from '../data/questions.js';
+
+const shuffleArray = (array) => {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+};
 
 const SurveyForm = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
+  const [shuffledOptions, setShuffledOptions] = useState([]);
   const [isCompleting, setIsCompleting] = useState(false);
   const navigate = useNavigate();
+
+  const currentQuestion = questions[currentQuestionIndex];
+
+  useEffect(() => {
+    if (currentQuestion) {
+      setShuffledOptions(shuffleArray(currentQuestion.options));
+    }
+  }, [currentQuestion]);
 
   const handleAnswer = (option) => {
     setAnswers(prev => ({ ...prev, [currentQuestionIndex]: option }));
@@ -26,6 +44,10 @@ const SurveyForm = () => {
     }
   };
 
+  const handleDotClick = (index) => {
+    setCurrentQuestionIndex(index);
+  };
+
   const handleSubmit = async () => {
     setIsCompleting(true);
     try {
@@ -38,7 +60,6 @@ const SurveyForm = () => {
         navigate('/thank-you');
       } else {
         console.error('Survey submission failed');
-        // You might want to show an error message to the user here
       }
     } catch (error) {
       console.error('Error submitting survey:', error);
@@ -46,9 +67,6 @@ const SurveyForm = () => {
       setIsCompleting(false);
     }
   };
-
-  const currentQuestion = questions[currentQuestionIndex];
-  const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
 
   return (
     <div className="survey-shell">
@@ -58,8 +76,14 @@ const SurveyForm = () => {
       </div>
 
       <div className="progress-container">
-        <div className="progress-bar">
-          <div className="progress" style={{ width: `${progress}%` }}></div>
+        <div className="progress-dots">
+          {questions.map((_, index) => (
+            <button
+              key={index}
+              className={`progress-dot ${currentQuestionIndex === index ? 'active' : ''} ${answers.hasOwnProperty(index) ? 'visited' : ''}`}
+              onClick={() => handleDotClick(index)}
+            />
+          ))}
         </div>
       </div>
 
@@ -73,7 +97,7 @@ const SurveyForm = () => {
         </div>
 
         <div className="survey-options">
-          {currentQuestion.options.map((option, index) => (
+          {shuffledOptions.map((option, index) => (
             <button
               key={index}
               className={`survey-option ${answers[currentQuestionIndex] === option ? 'selected' : ''}`}
