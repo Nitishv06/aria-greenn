@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import surveyData from '../../../Aria_Onboarding_Survey_v1.2.json';
+import surveyData from '../data/survey.js';
 import { calculateScores } from '../lib/scoring';
 
 // Helper function to shuffle an array
